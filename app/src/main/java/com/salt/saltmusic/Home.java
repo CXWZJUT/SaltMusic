@@ -26,26 +26,25 @@ public class Home extends Activity  {
     private TabHost tabhost;
     private ArrayList<MusicItem> musicItems;
     private Handler handler=new Handler() {
-        @Override
-        public void close() {
 
+        public void close() {
+          if(musicItems!=null&&musicItems.size()>0) {
+              nomusic.setVisibility(View.GONE);
+              musiclist.setAdapter((ListAdapter) new MusicListAdapter());
+          }else{
+              //没有发现视频
+              nomusic.setVisibility(View.VISIBLE);
+
+          }
+          }
             public void handleMessage(android.os.Message msg){
                 musiclist.setAdapter((ListAdapter) new MusicListAdapter());
 
 
             };
-        }
 
-        @Override
-        public void flush() {
 
-        }
-
-        @Override
-        public void publish(LogRecord record) {
-
-        }
-    }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +90,8 @@ private  class MusicListAdapter {
                        MediaStore.Audio.Media.SIZE,//大小
                        MediaStore.Audio.Media.DATA//绝对播放地址
                };
-               Cursor cursor = resolver.query(uri,projection,null,null,null);
+
+              Cursor cursor =resolver.query(uri,projection,null,null,null);
                while (cursor.moveToNext()){
                    //具体的音乐信息
                    MusicItem item = new MusicItem();
