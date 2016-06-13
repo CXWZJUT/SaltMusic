@@ -9,12 +9,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import java.util.ArrayList;
-import java.util.logging.LogRecord;
 import android.os.Handler;
 import android.os.Message;
 /**
@@ -30,7 +29,7 @@ public class Home extends Activity  {
         public void close() {
           if(musicItems!=null&&musicItems.size()>0) {
               nomusic.setVisibility(View.GONE);
-              musiclist.setAdapter((ListAdapter) new MusicListAdapter());
+              musiclist.setAdapter( new MusicListAdapter());
           }else{
               //没有发现视频
               nomusic.setVisibility(View.VISIBLE);
@@ -38,7 +37,7 @@ public class Home extends Activity  {
           }
           }
             public void handleMessage(android.os.Message msg){
-                musiclist.setAdapter((ListAdapter) new MusicListAdapter());
+                musiclist.setAdapter( new MusicListAdapter());
 
 
             };
@@ -64,18 +63,35 @@ public class Home extends Activity  {
         getAllMusic();
 
     }
-private  class MusicListAdapter {
-    public int gerCount(){
-        return musicItems.size();
-    }
-    public View getView(int position,View convertView,ViewGroup parent) {
-    TextView tv=new TextView(Home.this);
-    tv.setTextColor(Color.WHITE);
-    tv.setTextSize(16);
-        return tv;
-    }
 
-}
+    private  class MusicListAdapter extends BaseAdapter {
+
+
+        @Override
+        public int getCount() {
+            return musicItems.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            TextView tv = new TextView(Home.this);
+            tv.setText(musicItems.get(position).toString());
+            tv.setTextColor(Color.WHITE);
+            tv.setTextSize(16);
+            return tv;
+
+        }
+    }
 //子线程
    private void getAllMusic(){
        new Thread(){
@@ -83,6 +99,7 @@ private  class MusicListAdapter {
                //把手机里的信息读取出来
                musicItems = new ArrayList<MusicItem>();
               ContentResolver resolver=getContentResolver() ;
+
                Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
                String[]projection={
                        MediaStore.Audio.Media.TITLE,//标题
@@ -91,7 +108,7 @@ private  class MusicListAdapter {
                        MediaStore.Audio.Media.DATA//绝对播放地址
                };
 
-              Cursor cursor =resolver.query(uri,projection,null,null,null);
+          Cursor cursor =  resolver.query(uri,projection,null,null,null);
                while (cursor.moveToNext()){
                    //具体的音乐信息
                    MusicItem item = new MusicItem();
@@ -106,9 +123,8 @@ private  class MusicListAdapter {
                    musicItems.add(item);
                    handler.sendEmptyMessage(0);
 
+
                }
-
-
            };
        }.start();
 
