@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:src="@drawable/music_pic"
+        android:layout_width="60dip"
+        android:layout_height="60dip"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/view"
+        android:layout_alignStart="@+id/view" />
+    <TextView
+        android:layout_marginTop="6dip"
+        android:id="@+id/name"
+        android:layout_marginLeft="5dip"
+        android:layout_toRightOf="@id/iv_icon"
+        android:textSize="18dip"
+        android:text="音频名称"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_below="@id/name"
+        android:id="@+id/duration"
+        android:layout_marginLeft="5dip"
+        android:layout_toRightOf="@id/iv_icon"
+        android:textSize="14dip"
+        android:text="音频时长"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:id="@+id/size"
+        android:textSize="14dip"
+        android:text="音频大小"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/duration"
+        android:layout_alignRight="@+id/view"
+        android:layout_alignEnd="@+id/view" />
+    <View
+
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent"
+        android:layout_height="0.1dip"
+        android:id="@+id/view" />
+
+
+</RelativeLayout>
